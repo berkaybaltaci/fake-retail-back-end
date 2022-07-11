@@ -3,7 +3,6 @@ import { Field, InputType, ObjectType } from 'type-graphql';
 import { IsNumber, MaxLength, Min, MinLength } from 'class-validator';
 
 @ObjectType()
-@index({ productId: 1 })
 export class Product {
   @Field(() => String)
   _id: string;
@@ -18,7 +17,7 @@ export class Product {
 
   @Field(() => String)
   @prop({ required: true })
-  doesntexist: string;
+  price: string;
 
   @Field(() => String)
   @prop({ required: true })
@@ -31,4 +30,13 @@ export const ProductModel = getModelForClass<typeof Product>(Product);
 export class GetProductInput {
   @Field()
   _id: string;
+}
+
+@InputType()
+export class GetPaginatedProductsInput {
+  @Field()
+  numberOfProductsToGet: number;
+
+  @Field()
+  numberOfProductsToSkip: number;
 }

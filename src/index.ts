@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import 'reflect-metadata';
 import express from 'express';
 import { buildSchema } from 'type-graphql';
@@ -9,10 +8,13 @@ import {
   ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageProductionDefault,
 } from 'apollo-server-core';
-import { connectToMongo } from './util/mongo';
+import { connectToMongo } from './utils/mongo';
 import { resolvers } from './resolvers';
 
 const bootstrap = async () => {
+  // Load environment variables
+  dotenv.config();
+
   // Build the schema
   const schema = await buildSchema({
     resolvers,
@@ -40,15 +42,15 @@ const bootstrap = async () => {
 
   await server.start();
 
-  // apply middleware to server
+  // Apply middleware to server
   server.applyMiddleware({ app });
 
-  // app.listen on express server
+  // App.listen on express server
   app.listen(4000, () => {
     console.log('App is listening on port 4000');
   });
 
-  // connect to db
+  // Connect to db
   connectToMongo();
 };
 
