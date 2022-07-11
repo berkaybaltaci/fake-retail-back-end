@@ -10,6 +10,7 @@ import {
   ApolloServerPluginLandingPageProductionDefault,
 } from 'apollo-server-core';
 import { connectToMongo } from './util/mongo';
+import { resolvers } from './resolvers';
 
 const bootstrap = async () => {
   // Build the schema
@@ -19,9 +20,7 @@ const bootstrap = async () => {
   });
 
   // Init express
-
   const app = express();
-
   app.use(cookieParser());
 
   // Create the apollo server
@@ -45,7 +44,6 @@ const bootstrap = async () => {
   server.applyMiddleware({ app });
 
   // app.listen on express server
-
   app.listen(4000, () => {
     console.log('App is listening on port 4000');
   });
