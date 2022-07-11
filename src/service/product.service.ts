@@ -11,6 +11,7 @@ class ProductService {
       numberOfProductsToSkip: 0,
     }
   ) {
+    console.log('debug point');
     // If you want pagination, the logic should be here
     return ProductModel.find()
       .skip(input.numberOfProductsToSkip)
@@ -19,7 +20,6 @@ class ProductService {
   }
 
   async findSingleProduct(input: GetProductInput) {
-    ProductModel.find();
     return ProductModel.findOne(input).lean();
   }
 }

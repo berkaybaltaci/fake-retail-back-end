@@ -46,8 +46,8 @@ const bootstrap = async () => {
   server.applyMiddleware({ app });
 
   // App.listen on express server
-  app.listen(4000, () => {
-    console.log('App is listening on port 4000');
+  app.listen(process.env.PORT, () => {
+    console.log(`App is listening on port ${process.env.PORT}`);
   });
 
   // Connect to db
