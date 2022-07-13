@@ -1,8 +1,9 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import {
-  GetProductInput,
+  GetProductByIdInput,
   Product,
   GetPaginatedProductsInput,
+  GetProductByNameInput,
 } from '../schema/product.schema';
 import ProductService from '../service/product.service';
 
@@ -18,7 +19,12 @@ export default class ProductResolver {
   }
 
   @Query(() => Product)
-  product(@Arg('input') input: GetProductInput) {
+  product(@Arg('input') input: GetProductByIdInput) {
     return this.productService.findSingleProduct(input);
+  }
+
+  @Query(() => Product)
+  productByName(@Arg('input') input: GetProductByNameInput) {
+    return this.productService.findProductByName(input);
   }
 }

@@ -9,7 +9,7 @@ export class Product {
 
   @Field(() => String)
   @prop({ required: true })
-  product: string;
+  name: string;
 
   @Field(() => String)
   @prop({ required: true })
@@ -22,14 +22,40 @@ export class Product {
   @Field(() => String)
   @prop({ required: true })
   imagePath: string;
+
+  @Field(() => Boolean)
+  @prop({ required: true })
+  isNew: boolean;
+
+  @Field(() => Boolean)
+  @prop({ required: true })
+  isVerified: boolean;
+
+  @Field(() => Boolean)
+  @prop({ required: true })
+  isReducedPrice: boolean;
+
+  @Field(() => Boolean)
+  @prop({ required: true })
+  isLocalOffer: boolean;
+
+  @Field(() => Boolean)
+  @prop({ required: true })
+  isLimited: boolean;
 }
 
 export const ProductModel = getModelForClass<typeof Product>(Product);
 
 @InputType()
-export class GetProductInput {
+export class GetProductByIdInput {
   @Field()
   _id: string;
+}
+
+@InputType()
+export class GetProductByNameInput {
+  @Field()
+  name: string;
 }
 
 @InputType()

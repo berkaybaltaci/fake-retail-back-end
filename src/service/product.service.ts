@@ -1,6 +1,7 @@
 import {
   GetPaginatedProductsInput,
-  GetProductInput,
+  GetProductByIdInput,
+  GetProductByNameInput,
   ProductModel,
 } from '../schema/product.schema';
 
@@ -11,15 +12,17 @@ class ProductService {
       numberOfProductsToSkip: 0,
     }
   ) {
-    console.log('debug point');
-    // If you want pagination, the logic should be here
     return ProductModel.find()
       .skip(input.numberOfProductsToSkip)
       .limit(input.numberOfProductsToGet)
       .lean();
   }
 
-  async findSingleProduct(input: GetProductInput) {
+  async findSingleProduct(input: GetProductByIdInput) {
+    return ProductModel.findOne(input).lean();
+  }
+
+  async findProductByName(input: GetProductByNameInput) {
     return ProductModel.findOne(input).lean();
   }
 }
