@@ -1,5 +1,10 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { CreateUserInput, LoginInput, User } from '../schema/user.schema';
+import {
+  CreateUserInput,
+  GetUserByIdInput,
+  LoginInput,
+  User,
+} from '../schema/user.schema';
 import UserService from '../service/user.service';
 import Context from '../types/context';
 
@@ -17,5 +22,10 @@ export default class UserResolver {
   @Mutation(() => String) // returns the jwt
   login(@Arg('input') input: LoginInput, @Ctx() context: Context) {
     return this.userService.login(input, context);
+  }
+
+  @Query(() => User, { nullable: true })
+  currentUser(@Ctx() context: Context) {
+    return this.userService.findCurrentUser(context);
   }
 }

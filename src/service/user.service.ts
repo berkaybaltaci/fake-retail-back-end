@@ -1,5 +1,10 @@
 import { ApolloError } from 'apollo-server';
-import { CreateUserInput, LoginInput, UserModel } from '../schema/user.schema';
+import {
+  CreateUserInput,
+  GetUserByIdInput,
+  LoginInput,
+  UserModel,
+} from '../schema/user.schema';
 import Context from '../types/context';
 import bcrypt from 'bcrypt';
 import { signJwt } from '../utils/jwt';
@@ -7,6 +12,10 @@ import { signJwt } from '../utils/jwt';
 class UserService {
   async createUser(input: CreateUserInput) {
     return UserModel.create(input);
+  }
+
+  async findCurrentUser(context: Context) {
+    return context.user;
   }
 
   async login(input: LoginInput, context: Context) {

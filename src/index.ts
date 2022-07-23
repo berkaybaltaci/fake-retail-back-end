@@ -14,6 +14,7 @@ import Context from './types/context';
 import { verifyJwt } from './utils/jwt';
 import { User } from './schema/user.schema';
 import authChecker from './utils/authChecker';
+import cors from 'cors';
 
 const bootstrap = async () => {
   // Load environment variables
@@ -28,6 +29,12 @@ const bootstrap = async () => {
   // Init express
   const app = express();
   app.use(cookieParser());
+
+  const corsConfig = {
+    credentials: true,
+    origin: true,
+  };
+  app.use(cors(corsConfig));
 
   // Create the apollo server
   const server = new ApolloServer({
@@ -53,7 +60,7 @@ const bootstrap = async () => {
   await server.start();
 
   // Apply middleware to server
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   // App.listen on express server
   app.listen(process.env.PORT, () => {
