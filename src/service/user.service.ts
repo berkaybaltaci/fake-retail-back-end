@@ -1,12 +1,7 @@
 import { ApolloError } from 'apollo-server';
-import {
-  CreateUserInput,
-  GetUserByIdInput,
-  LoginInput,
-  UserModel,
-} from '../schema/user.schema';
-import Context from '../types/context';
 import bcrypt from 'bcrypt';
+import { CreateUserInput, LoginInput, UserModel } from '../schema/user.schema';
+import Context from '../types/context';
 import { signJwt } from '../utils/jwt';
 
 class UserService {
@@ -19,7 +14,7 @@ class UserService {
   }
 
   async login(input: LoginInput, context: Context) {
-    // Get our user by name
+    // Get the user by name
     const user = await UserModel.findOne({ name: input.name }).lean();
 
     const e = 'Invalid name or password';
@@ -47,8 +42,25 @@ class UserService {
       secure: false,
     });
 
+    // Set a non-httpOnly cookie to let frontend check for authentication
+    context.res.cookie('dummyAccessToken', '123456', {
+      maxAge: 3.154e10, // 1 year
+      httpOnly: false,
+      domain: 'localhost',
+      path: '/',
+      sameSite: 'strict',
+      secure: false,
+    });
+
     // Return the jwt
     return token;
+  }
+
+  logout(context: Context) {
+    context.res.clearCookie('accessToken');
+    context.res.clearCookie('dummyAccessToken');
+
+    return 'Successfully logged out.';
   }
 }
 
