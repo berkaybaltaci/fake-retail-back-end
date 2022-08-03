@@ -1,11 +1,22 @@
 import { ApolloError } from 'apollo-server';
 import bcrypt from 'bcrypt';
-import { CreateUserInput, LoginInput, UserModel } from '../schema/user.schema';
+import {
+  CreateUserInput,
+  LoginInput,
+  User,
+  UserModel,
+} from '../schema/user.schema';
 import Context from '../types/context';
 import { signJwt } from '../utils/jwt';
 
 class UserService {
   async createUser(input: CreateUserInput) {
+    const existingUser = await UserModel.findOne({ name: input.name }).lean();
+    if (existingUser) {
+      console.log(existingUser);
+      throw new ApolloError('User with the provided name already exists.');
+    }
+
     return UserModel.create(input);
   }
 
