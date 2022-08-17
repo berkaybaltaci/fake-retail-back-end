@@ -35,6 +35,10 @@ export class Order {
 
   @Field(() => String)
   @prop({ required: true })
+  recipientLastName: string;
+
+  @Field(() => String)
+  @prop({ required: true })
   recipientAddress: string;
 
   @Field(() => String)
@@ -65,6 +69,10 @@ export class CreateOrderInput {
   @Field()
   @prop({ required: true })
   recipientName: string;
+
+  @Field()
+  @prop({ required: true })
+  recipientLastName: string;
 
   @Field()
   @prop({ required: true })
